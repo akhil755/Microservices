@@ -1,1 +1,1 @@
-Microservices demo project
+Microservices demo project for E-commerce application.
