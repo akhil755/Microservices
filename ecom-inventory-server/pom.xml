@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.example</groupId>
-	<artifactId>ecom-inventory-server</artifactId>
+	<artifactId>ecom-inventory-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>ecom-inventory-server</name>
 	<description>Demo project for Spring Boot</description>
