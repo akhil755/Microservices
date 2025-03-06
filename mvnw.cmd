@@ -26,6 +26,7 @@
 @REM   MVNW_USERNAME/MVNW_PASSWORD - user and password for downloading maven
 @REM   MVNW_VERBOSE - true: enable verbose log; others: silence the output
 @REM ----------------------------------------------------------------------------
+@set JAVA_HOME=C:\Program Files\OpenLogic\jdk-17.0.7.7-hotspot
 
 @IF "%__MVNW_ARG0_NAME__%"=="" (SET __MVNW_ARG0_NAME__=%~nx0)
 @SET __MVNW_CMD__=
