@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("/users")
 public class UserController {
 
     @Autowired
@@ -16,6 +17,11 @@ public class UserController {
     @GetMapping
     public List<User> getUsers(){
         return userService.getUsers();
+    }
+
+    @GetMapping("/test")
+    public String testEndpoint(){
+        return "Hello from ecom-user-server instance";
     }
 
     @GetMapping("/{id}")
