@@ -1,6 +1,7 @@
 package com.example.ecom_api_gateway.config;
 
 import com.example.ecom_api_gateway.filter.JwtAuthenticationFilter;
+import com.example.ecom_api_gateway.service.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,6 +22,9 @@ public class GatewaySecurityConfig {
 
     @Autowired
     private JwtAuthenticationFilter jwtAuthenticationFilter;
+
+    @Autowired
+    private CustomUserDetailsService customUserDetailsService;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -46,5 +50,10 @@ public class GatewaySecurityConfig {
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
         return authConfig.getAuthenticationManager();
+    }
+
+    @Bean
+    public UserDetailsService userDetailsService() {
+        return customUserDetailsService;
     }
 }
