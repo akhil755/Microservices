@@ -1,4 +1,4 @@
-package com.example.ecom_api_gateway.dto;
+package com.example.ecom_user_server.dto;
 
 public class AuthResponse {
     private String token;
