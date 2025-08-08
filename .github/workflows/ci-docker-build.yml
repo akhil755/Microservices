@@ -34,8 +34,8 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       # Build docker image
-      - name: Build Docker Image
-        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/ecom-user-server:latest .
+      - name: Build Docker Image for ecom-user-server
+        run: docker build -t ecom-user-server -f ecom-user-server/Dockerfile ecom-user-server
 
       # Push Docker Image to Docker Hub
       - name: Push Docker Image
