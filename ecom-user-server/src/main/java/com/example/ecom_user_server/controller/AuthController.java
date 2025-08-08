@@ -40,11 +40,7 @@ public class AuthController {
 
         return ResponseEntity.ok(new AuthResponse(token));
     }
-    @GetMapping("/userid")
-    public User getUserByTheirId(Long id){
-        User userById = userService.getUserById(id);
-        return userById;
-    }
+
 
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@RequestBody AuthRequest registerRequest) {
