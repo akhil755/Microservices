@@ -1,0 +1,42 @@
+name: CI - Build and Push Docker Image(ecom-user-server)
+
+on:
+  push:
+    branches:
+      -master
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # checkout source code
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Set up java
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      # Build project using maven
+      - name: Build with Maven
+        run: mvn clean package -DskipTests
+
+      # Log in to Docker Hub
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      # Build docker image
+      - name: Build Docker Image
+        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/ecom-user-server:latest .
+
+      # Push Docker Image to Docker Hub
+      - name: Push Docker Image
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/ecom-user-server:latest
