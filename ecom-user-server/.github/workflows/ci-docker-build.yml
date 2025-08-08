@@ -3,7 +3,7 @@ name: CI - Build and Push Docker Image(ecom-user-server)
 on:
   push:
     branches:
-      -master
+      - master
   workflow_dispatch:
 
 jobs:
