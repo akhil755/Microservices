@@ -1,0 +1,44 @@
+
+services:
+  mysql:
+    image: mysql:8
+    container_name: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: mysql
+      MYSQL_DATABASE: user_db
+      MYSQL_USER: UDBUSER1
+      MYSQL_PASSWORD: udbp1
+    ports:
+        - "3306:3306"
+    networks:
+      - app-network
+    healthcheck: # Add this block
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost"] # Use credentials that can ping
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 240s
+  ecom-user-server:
+    build:
+      context: ./ecom-user-server
+      dockerfile: Dockerfile
+    container_name: ecom-user-server
+    depends_on:
+      mysql:
+        condition: service_healthy
+    ports:
+      - "8081:8081"
+    command: sh -c "./wait-for-it.sh mysql:3306 -t 60 -- java -jar app.jar --spring.profiles.active=docker"
+
+    environment:
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
+      SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL}
+      SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
+      JWT_SECRET: ${JWT_SECRET}
+    networks:
+      - app-network
+networks:
+  app-network:
+    driver: bridge
