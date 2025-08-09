@@ -45,8 +45,7 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@RequestBody AuthRequest registerRequest) {
         try {
-            // For simplicity, let's assume a default role for new registrations
-            // In a real app, you might have more complex role assignment logic
+
             User newUser = userService.registerNewUser(
                     registerRequest.getUsername(),
                     registerRequest.getPassword(),
