@@ -5,16 +5,16 @@ services:
     container_name: mysql
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: mysql
-      MYSQL_DATABASE: user_db
-      MYSQL_USER: UDBUSER1
-      MYSQL_PASSWORD: udbp1
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     ports:
-        - "3306:3306"
+      - "3306:3306"
     networks:
       - app-network
-    healthcheck: # Add this block
-      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost"] # Use credentials that can ping
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"] # have to Use credentials that can ping
       interval: 10s
       timeout: 5s
       retries: 5
@@ -27,9 +27,10 @@ services:
     depends_on:
       mysql:
         condition: service_healthy
+    command: sh -c "./wait-for-it.sh mysql:3306 -t 120 -- java -jar app.jar --spring.profiles.active=docker"
+
     ports:
       - "8081:8081"
-    command: sh -c "./wait-for-it.sh mysql:3306 -t 60 -- java -jar app.jar --spring.profiles.active=docker"
 
     environment:
       SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
@@ -37,6 +38,7 @@ services:
       SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME}
       SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
       JWT_SECRET: ${JWT_SECRET}
+
     networks:
       - app-network
 networks:
